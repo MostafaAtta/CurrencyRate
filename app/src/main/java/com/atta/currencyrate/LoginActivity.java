@@ -13,17 +13,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     EditText username, password;
     Button login, register;
-    DbHandler db;
-
+    DbHelper db;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        sessionManager = new SessionManager(this);
+        if (sessionManager.isLoggedIn()){
+            goToMain();
+        }
 
-        db = new DbHandler(LoginActivity.this);
-
+        db = new DbHelper(LoginActivity.this);
         username = findViewById(R.id.user);
         password = findViewById(R.id.password);
         login = findViewById(R.id.btn_login);
@@ -43,20 +46,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String name = username.getText().toString();
             String pass = password.getText().toString();
 
-            int id = checkUser(new User(name, pass));
+            User user = new User(name, pass);
+
+            int id = checkUser(user);
 
             if (id == -1) {
                 Toast.makeText(LoginActivity.this, "User Does Not Exist", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(LoginActivity.this, "User Exist " + name, Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                sessionManager.saveUser(user);
+                goToMain();
             }
         }else if (view == register){
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
+            finish();
         }
+    }
+
+    private void goToMain() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

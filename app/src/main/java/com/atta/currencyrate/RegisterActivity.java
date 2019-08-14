@@ -14,7 +14,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     EditText username, password;
     Button register;
-    DbHandler db;
+    DbHelper db;
 
 
     @Override
@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        db=new DbHandler(RegisterActivity.this);
+        db = new DbHelper(RegisterActivity.this);
         //inserting user
         db.addUser(new User(name, pass));
 

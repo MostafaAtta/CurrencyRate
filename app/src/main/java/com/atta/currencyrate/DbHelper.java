@@ -6,22 +6,22 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DbHandler extends SQLiteOpenHelper {
+public class DbHelper extends SQLiteOpenHelper {
 
     //all constants as they are static and final(Db=Database)
     //Db Version
     private static final int Db_Version = 1;
     //Db Name
-    private static final String Db_Name="users";
+    private static final String Db_Name = "users";
     //table name
-    private static final String Table_Name="user";
+    private static final String Table_Name = "user";
     //Creating Columns
-    private static final String User_id="id";
-    private static final String User_name="name";
-    private static final String User_password="password";
+    private static final String User_id = "id";
+    private static final String User_name = "name";
+    private static final String User_password = "password";
 
     //constructor here
-    public DbHandler(Context context)
+    public DbHelper(Context context)
     {
         super(context,Db_Name,null,Db_Version);
     }
@@ -60,10 +60,10 @@ public class DbHandler extends SQLiteOpenHelper {
     {
         int id = -1;
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor=db.rawQuery("SELECT id FROM user WHERE name = ? AND password = ?", new String[]{us.getName(),us.getPassword()});
+        Cursor cursor = db.rawQuery("SELECT id FROM user WHERE name = ? AND password = ?", new String[]{us.getName(),us.getPassword()});
         if(cursor.getCount()>0) {
             cursor.moveToFirst();
-            id=cursor.getInt(0);
+            id= cursor.getInt(0);
             cursor.close();
         }
         return id;
