@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
-        currencyNames = new String[]{"US Dollar", "Euro", "Russian Ruble", "Japanese Yen",
-                "British Pound", "Canadian Dollar", "Turkish Lira", "S Korean Won", "Swiss Franc", "Chinese Yuan"};
+        currencyNames = new String[]{"USD", "EUR", "RUB", "JPY",
+                "GBP", "CAD", "TRY", "KRW", "CHF", "CNY"};
 
         currencyImages = new int[]{R.drawable.us, R.drawable.europ, R.drawable.russia, R.drawable.japan
                 , R.drawable.uk, R.drawable.canada, R.drawable.turkey, R.drawable.southkorea, R.drawable.switzerland

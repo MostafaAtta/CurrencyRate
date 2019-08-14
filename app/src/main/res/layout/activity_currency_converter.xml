@@ -49,6 +49,8 @@
         android:inputType="numberDecimal"
         android:hint="Amount"
         android:gravity="center"
+        android:imeActionLabel="convert"
+        android:imeOptions="actionDone"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView3"

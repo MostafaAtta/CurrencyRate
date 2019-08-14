@@ -1,7 +1,10 @@
 package com.atta.currencyrate;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,23 +47,28 @@ public class CurrencyConverterActivity extends AppCompatActivity implements View
 
         convertBtn.setOnClickListener(this);
         swap.setOnClickListener(this);
+
+        amountTxt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    mgr.hideSoftInputFromWindow(amountTxt.getWindowToken(), 0);
+                    calculateResult();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
 
         if (view == convertBtn){
-            String amountString = amountTxt.getText().toString();
-            if (amountString.isEmpty()){
-                amountTxt.setError("enter an amountString");
-                return;
-            }
-
-            double amount = Double.valueOf(amountString);
-
-            result = amount*rate;
-
-            resultTxt.setText(String.format(Locale.US,"%.4f", result));
+            calculateResult();
         }else if (view == swap){
 
             rate = 1/rate;
@@ -76,5 +84,20 @@ public class CurrencyConverterActivity extends AppCompatActivity implements View
             }
 
         }
+    }
+
+    private void calculateResult() {
+        String amountString = amountTxt.getText().toString();
+        if (amountString.isEmpty()){
+            amountTxt.setError("enter an amountString");
+            amountTxt.requestFocus();
+            return;
+        }
+
+        double amount = Double.valueOf(amountString);
+
+        result = amount*rate;
+
+        resultTxt.setText(String.format(Locale.US,"%.4f", result));
     }
 }
